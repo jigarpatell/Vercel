@@ -26,5 +26,18 @@ WORKDIR /home/app
 # copy main.sh to working dir as main.sh
 COPY main.sh main.sh
 
+# copy script.js from here and paste it on s3 working dir with name script.js
+COPY script.js script.js
+
+# copy package.json and package-lock.json also
+COPY package*.json .
+
+# bcz we want to install client-s3 , mime-types modules from package.json
+RUN npm install
+
+# MIMP , after npm install give executable permissions
+RUN chmod +x main.sh
+RUN chmod +x script.js
+
 # after all installation we will run a shell script
 ENTRYPOINT [ "/home/app/main.sh" ]
